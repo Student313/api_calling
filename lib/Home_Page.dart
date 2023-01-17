@@ -1,23 +1,26 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart';
+
 import 'Model/model.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HttpService {
+  final String postURL = "https://jsonplaceholder.typicode.com/posts";
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+  Future<List<User>> getPosts() async {
+    Response res = await get(Uri.parse(postURL));
 
-class _HomePageState extends State<HomePage> {
-  List<Model> apiList = [];
+    if (res.statusCode == 200) {
+      List<dynamic> body = jsonDecode(res.body);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Home Page'),
-      ),
-    );
+      List<User> posts = body
+          .map(
+            (dynamic item) => User.fromJson(item),
+          )
+          .toList();
+      return posts;
+    } else {
+      throw ("Unable to retrieve posts");
+    }
   }
 }
