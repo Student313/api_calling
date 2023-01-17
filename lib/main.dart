@@ -81,10 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text(posts[index].id.toString()),
             ),
             title: Text(
+              overflow: TextOverflow.ellipsis,
               posts[index].title.toString(),
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            subtitle: Text(posts[index].body.toString()),
+            subtitle: Text(overflow: TextOverflow.ellipsis,posts[index].body.toString()),
           ),
         );
       },
